@@ -23,15 +23,28 @@ pipeline {
       }
     }
 
-    stage('Push Image') {
-      steps{
-        script {
-          docker.withRegistry( "" ) {
-            dockerImage.push()
-          }
-        }
-      }
+    stage('Login') {
+		
+			steps {
+			   sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login --username febfun --password-stdin'    
+			}
+		}
+
+		stage('Push') {
+			
+			steps {
+			   sh 'docker push febfun-app:${BUILD_NUMBER}'
+			}
+		}
+		}
+	
+	post {
+	    always {
+		sh 'docker logout'
+	    }
     }
+
+}
 
     stage('Deploy App') {
       steps {
