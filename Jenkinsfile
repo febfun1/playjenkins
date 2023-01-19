@@ -1,8 +1,8 @@
 pipeline {
 
   environment {
-    registry = "18.234.198.17:5000/justme/myweb"
-    dockerImage = ""
+    registry = "dockerhub"
+    dockerImage = "febfun-app"
   }
 
   agent any
