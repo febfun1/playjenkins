@@ -11,7 +11,7 @@ pipeline {
 
     stage('Checkout Source') {
       steps {
-        git 'https://github.com/febfun1/playjenkins.git'
+        git 'https://github.com/justmeandopensource/playjenkins.git'
       }
     }
 
@@ -22,29 +22,22 @@ pipeline {
         }
       }
     }
-
+ 
     stage('Login') {
-		
-			steps {
-			   sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login --username febfun --password-stdin'    
-			}
-		}
-
-		stage('Push') {
-			
-			steps {
-			   sh 'docker push febfun-app:${BUILD_NUMBER}'
-			}
-		}
-		}
-	
-	post {
-	    always {
-		sh 'docker logout'
-	    }
+      steps {
+	 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login --username febfun --password-stdin'    
+	 }
+    } 
+	  
+    stage('Push Image') {
+      steps{
+        script {
+          docker.withRegistry( "" ) {
+            dockerImage.push()
+          }
+        }
+      }
     }
-
-}
 
     stage('Deploy App') {
       steps {
