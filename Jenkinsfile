@@ -1,8 +1,8 @@
 pipeline {
 
   environment {
-    registry = "my new-app"
-    dockerImage = ""
+    registry = "dockerhub"
+    dockerImage = "my-image"
   }
 
   agent any
