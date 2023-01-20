@@ -1,8 +1,8 @@
 pipeline {
 
   environment {
-    registry = "dockerhub"
-    dockerImage = "febfun-app"
+    registry = "my new-app"
+    dockerImage = ""
   }
 
   agent any
@@ -11,7 +11,7 @@ pipeline {
 
     stage('Checkout Source') {
       steps {
-        git 'https://github.com/febfun1/playjenkins.git'
+        git 'https://github.com/justmeandopensource/playjenkins.git'
       }
     }
 
@@ -22,13 +22,7 @@ pipeline {
         }
       }
     }
- 
-    stage('Login') {
-      steps {
-	 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login --username febfun --password-stdin'    
-	 }
-    } 
-	  
+
     stage('Push Image') {
       steps{
         script {
